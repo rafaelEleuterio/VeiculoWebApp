@@ -61,14 +61,16 @@ namespace VeiculoWebMvc.Controllers
             {
                 var actionName = "CadastrarVeiculo";
                 var uri = Flurl.Url.Combine(ApiClient.BaseAddress.ToString(), _controllerApiName, actionName);
-                var response = await ApiClient.PostAsJsonAsync(uri, veiculo);
 
-                if (!response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiClient.PostAsJsonAsync(uri, veiculo))
                 {
-                    return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
-                }
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
+                    }
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return RedirectToAction(nameof(Error));
@@ -104,14 +106,16 @@ namespace VeiculoWebMvc.Controllers
             {
                 var actionName = "AlterarVeiculo";
                 var uri = Flurl.Url.Combine(ApiClient.BaseAddress.ToString(), _controllerApiName, actionName);
-                var response = await ApiClient.PutAsJsonAsync(uri, veiculo);
 
-                if (!response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiClient.PutAsJsonAsync(uri, veiculo))
                 {
-                    return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
-                }
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
+                    }
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View(veiculo);
@@ -149,14 +153,16 @@ namespace VeiculoWebMvc.Controllers
             {
                 var actionName = "ExcluirVeiculo";
                 var uri = Flurl.Url.Combine(ApiClient.BaseAddress.ToString(), _controllerApiName, actionName, id.ToString());
-                var response = await ApiClient.DeleteAsync(uri);
 
-                if (!response.IsSuccessStatusCode)
+                using (HttpResponseMessage response = await ApiClient.DeleteAsync(uri))
                 {
-                    return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
-                }
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Error), new { statusCode = response.StatusCode, errorMessage = await response.Content.ReadAsStringAsync() });
+                    }
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return RedirectToAction(nameof(Index));
         }
@@ -175,7 +181,6 @@ namespace VeiculoWebMvc.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
                 StatusCode = statusCode,
                 ErrorMessage = errorMessage,
-
             };
 
             ModelState.Values
