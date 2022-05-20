@@ -14,11 +14,7 @@ namespace VeiculoWebMvc.Controllers
     public class VeiculosController : Controller
     {
         private readonly Contexto _context;
-        //private static string _baseApiUrl = GetInfoFromAppSettings("BaseApiUrl");
         private static string _controllerApiName = "api/Veiculos";
-        private List<string> _errors = new List<string>();
-        private HttpStatusCode _errorStatusCode = HttpStatusCode.InternalServerError;
-        //private HttpClient _httpClient = new HttpClient();
 
         public VeiculosController(Contexto context)
         {
